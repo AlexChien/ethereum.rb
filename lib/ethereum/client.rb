@@ -11,6 +11,10 @@ module Ethereum
     # https://github.com/ethereum/go-ethereum/wiki/Management-APIs
     RPC_MANAGEMENT_COMMANDS = %w(admin_addPeer admin_datadir admin_nodeInfo admin_peers admin_setSolc admin_startRPC admin_startWS admin_stopRPC admin_stopWS debug_backtraceAt debug_blockProfile debug_cpuProfile debug_dumpBlock debug_gcStats debug_getBlockRlp debug_goTrace debug_memStats debug_seedHash debug_setHead debug_setBlockProfileRate debug_stacks debug_startCPUProfile debug_startGoTrace debug_stopCPUProfile debug_stopGoTrace debug_traceBlock debug_traceBlockByNumber debug_traceBlockByHash debug_traceBlockFromFile debug_traceTransaction debug_verbosity debug_vmodule debug_writeBlockProfile debug_writeMemProfile miner_hashrate miner_makeDAG miner_setExtra miner_setGasPrice miner_start miner_startAutoDAG miner_stop miner_stopAutoDAG personal_importRawKey personal_listAccounts personal_lockAccount personal_newAccount personal_unlockAccount personal_sendTransaction txpool_content txpool_inspect txpool_status)
 
+    # https://github.com/paritytech/parity/wiki/JSONRPC-parity-module
+    # parity, parity_accounts, parity_set, personal modules
+    RPC_PARITY_COMMANDS = %w(parity_cidV0 parity_composeTransaction parity_consensusCapability parity_decryptMessage parity_encryptMessage parity_futureTransactions parity_getBlockHeaderByNumber parity_listOpenedVaults parity_listStorageKeys parity_listVaults parity_localTransactions parity_releasesInfo parity_signMessage parity_versionInfo parity_changeVault parity_changeVaultPassword parity_closeVault parity_getVaultMeta parity_newVault parity_openVault parity_setVaultMeta parity_accountsInfo parity_checkRequest parity_defaultAccount parity_generateSecretPhrase parity_hardwareAccountsInfo parity_listAccounts parity_phraseToAddress parity_postSign parity_postTransaction parity_defaultExtraData parity_extraData parity_gasCeilTarget parity_gasFloorTarget parity_minGasPrice parity_transactionsLimit parity_devLogs parity_devLogsLevels parity_chain parity_chainStatus parity_gasPriceHistogram parity_netChain parity_netPeers parity_netPort parity_nextNonce parity_pendingTransactions parity_pendingTransactionsStats parity_registryAddress parity_removeTransaction parity_rpcSettings parity_unsignedTransactionsCount parity_dappsInterface parity_dappsPort parity_enode parity_mode parity_nodeKind parity_nodeName parity_signerPort)
+
     attr_accessor :command, :id, :log, :logger, :default_account, :gas_price, :gas_limit
 
     def initialize(log = false)
@@ -131,7 +135,7 @@ module Ethereum
       end
     end
 
-    (RPC_COMMANDS + RPC_MANAGEMENT_COMMANDS).each do |rpc_command|
+    (RPC_COMMANDS + RPC_MANAGEMENT_COMMANDS + RPC_PARITY_COMMANDS).each do |rpc_command|
       method_name = rpc_command.underscore
       define_method method_name do |*args|
         send_command(rpc_command, args)
