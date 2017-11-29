@@ -73,11 +73,11 @@ module Ethereum
     end
 
     def get_chain
-      @net_version ||= net_version["result"].to_i(16)
+      @net_version ||= net_version["result"].to_i
     end
 
     def get_nonce(address)
-      eth_get_transaction_count(address)["result"].to_i(16)
+      eth_get_transaction_count(address, "latest")["result"].to_i(16)
     end
     
 

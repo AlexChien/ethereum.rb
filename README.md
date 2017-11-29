@@ -37,7 +37,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install ethereum.eb
+    $ gem install ethereum.rb
 
 ## Basic Usage
 
@@ -70,7 +70,7 @@ contract2 = MyContract2.new
 contract2 = contract.deploy_and_wait
 ```
 
-All names used to name contract in solidity source will transalte to name of classes in ruby (camelized).
+All names used to name contract in solidity source will translate to name of classes in ruby (camelized).
 
 Note: If class of given name exist it will be undefined first to avoid name collision.
 
@@ -94,6 +94,21 @@ If you want to create new contract, that is not yet deployed from ABI definition
 
 ```ruby
 contract = Ethereum::Contract.create(name: "MyContract", abi: abi, code: "...")
+```
+
+### Simple Truffle integration
+
+If you use Truffle to build and deploy contracts, you can pick up the Truffle artifacts to initialize
+a contract. For example, if you have a MyContract in the Truffle directory at `/my/truffle/project`:
+
+```
+contract = Ethereum::Contract.create(name: "MyContract", truffle: { paths: [ '/my/truffle/project' ] }, client: client, address: '0x01a4d1A62F01ED966646acBfA8BB0b59960D06dd')
+```
+
+The contract factory will attempt to load the deployed address from the Truffle artifacts if the client's network is present:
+
+```
+contract = Ethereum::Contract.create(name: "MyContract", truffle: { paths: [ '/my/truffle/project' ] }, client: client)
 ```
 
 ### Interacting with contract
@@ -242,7 +257,7 @@ contract.gas_price = 24_000_000_000
 
 ## Utils
 
-### Url helpers for rails applciations
+### Url helpers for rails applications
 
 Often in the application you want to link to blockchain explorer. This can be problematic if you want links to work with different networks (ropsten, mainnet, kovan) depending on environment you're working on.
 Following helpers will generate link according to network connected:
@@ -253,7 +268,7 @@ link_to_address("See the wallet", "0xE08cdFD4a1b2Ef5c0FC193877EC6A2Bb8f8Eb373")
 ```
 They use [etherscan.io](http://etherscan.io/) as a blockexplorer.
 
-Note: Helpers work in rails environment only.
+Note: Helpers work in rails environment only, works with rails 5.0+.
 
 ### Utils rake tasks
 
